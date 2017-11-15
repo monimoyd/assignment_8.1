@@ -1,0 +1,8 @@
+Amit,Big Data,1,BBSR,5300
+Venkat,Web Technology,2,BBSR,6400
+Aditya,DBA,1,BNG,5700
+Ravinder,Java,2,BBSR,3900
+Sunil,C#,1,BBSR,5250
+Anil,ASP,2,BNG,6500
+Mihir,Big Data,3,BBSR,7800
+Mohit,Java,1,BBSR,3700
