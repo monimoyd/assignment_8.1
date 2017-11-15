@@ -1,0 +1,45 @@
+Command to create Hive table employee
+
+CREATE TABLE IF NOT EXISTS employee
+(
+    name string,
+    skill string,
+    department_id int,
+    location string,
+    salary float
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+
+
+Command to load employee salary details form emp_salary_details INOTO employee
+
+LOAD DATA LOCAL INPATH '/home/acadgild/assignment_8.1/emp_salary_details.txt'
+OVERWRITE INTO TABLE employee;
+
+Hive SQL Query for  Task1: Find all the employees whose salary is more than
+the department average salary
+
+SELECT a.name, a.department_id, a.salary 
+FROM employee a JOIN
+   (SELECT  department_id,avg(salary) avg_sal
+    FROM employee GROUP BY department_id) b
+WHERE a.department_id=b.department_id and a.salary > b.avg_sal;
+
+Hive SQL Query for  Task2: Find all the employees whose salary is less than
+his immediate colleaugue in unit by 100
+
+
+CREATE VIEW ranked_employee_salary_view AS
+SELECT name, department_id, salary, rank() OVER 
+(PARTITION by department_id order by salary) rnk
+FROM employee
+
+SELECT a.name, a.department_id, a.salary
+FROM ranked_employee_salary_view a JOIN
+ranked_employee_salary_view b
+WHERE
+a.department_id=b.department_id
+AND 
+b.rnk -a.rnk = 1
+AND
+a.salary < b.salary - 100
